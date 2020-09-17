@@ -3,6 +3,29 @@
 
 #include <vector>
 
+struct Rect
+{
+    Rect(int x_, int y_, int w_, int h_)
+    {
+        if (x_ < 0) x = 0;
+        else x = x_;
+        
+        if (y_ < 0) y = 0;
+        else y = y_;
+        
+        if (w_ < 0) w = 0;
+        else w = w_;
+
+        if (h_ < 0) h = 0;
+        else h = h_;
+    }
+
+    int x;
+    int y;
+    int w;
+    int h;
+};
+
 struct Color
 {
     Color(int r_, int g_, int b_, int a_)
@@ -39,6 +62,7 @@ class Renderer
     private:
         SDL_Window *window;
         SDL_Renderer *renderer;
+        void drawRect(Rect rect, Color color);
 };
 
 #endif

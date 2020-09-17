@@ -12,9 +12,11 @@ Renderer::~Renderer()
     SDL_Quit();
 }
 
-void drawRect(int x, int y, int xSize, int ySize, Color color)
+void Renderer::drawRect(Rect rect, Color color)
 {
-
+    SDL_Rect sdlRect{rect.x, rect.y, rect.w, rect.h};
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderFillRect(renderer, &sdlRect);
 }
 
 void Renderer::render(std::vector<std::vector<int>> &board)
