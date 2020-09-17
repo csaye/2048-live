@@ -5,6 +5,10 @@ class Game
 {
     public:
         Game();
+        void quit();
+    private:
+        void startGameLoop();
+        bool running;
 };
 
 #endif

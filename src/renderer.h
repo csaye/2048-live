@@ -4,7 +4,11 @@
 class Renderer
 {
     public:
-        Renderer();
+        Renderer(int screenWidth, int screenHeight);
+        ~Renderer();
+    private:
+        SDL_Window *window;
+        SDL_Renderer *renderer;
 };
 
 #endif
