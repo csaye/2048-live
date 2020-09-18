@@ -56,12 +56,17 @@ struct Color
 class Renderer
 {
     public:
-        Renderer(int screenWidth, int screenHeight);
+        Renderer(int screenWidth_, int screenHeight_, int boardWidth_, int boardHeight_);
         ~Renderer();
         void render(std::vector<std::vector<int>> &board);
     private:
+        int screenWidth;
+        int screenHeight;
+        int boardWidth;
+        int boardHeight;
         SDL_Window *window;
         SDL_Renderer *renderer;
+        void clear();
         void drawRect(Rect rect, Color color);
 };
 

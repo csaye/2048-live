@@ -1,3 +1,5 @@
+#include <thread>
+
 #include "game.h"
 #include "renderer.h"
 #include "renderer.cpp"
@@ -8,6 +10,7 @@ const int screenWidth = 480;
 const int screenHeight = 480;
 const int boardWidth = 4;
 const int boardHeight = 4;
+const int fps = 2;
 
 Game::Game()
 {
@@ -31,13 +34,17 @@ void Game::initializeBoard()
 
 void Game::startGameLoop()
 {
-    Renderer renderer(screenWidth, screenHeight);
+    Renderer renderer(screenWidth, screenHeight, boardWidth, boardHeight);
     Input input(this);
 
     initializeBoard();
 
     SDL_Event event;
     running = true;
+
+    board[1][1] = 1;
+
+    renderer.render(board);
 
     while (running)
     {
@@ -47,5 +54,7 @@ void Game::startGameLoop()
         }
 
         renderer.render(board);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000 / fps));
     }
 }
