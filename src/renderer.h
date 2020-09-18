@@ -16,8 +16,8 @@ class Renderer
         int boardHeight;
         SDL_Window *window;
         SDL_Surface *surface;
-        SDL_Renderer *renderer;
-        void drawBackground(int r, int g, int b);
+        // SDL_Renderer *renderer;
+        // void drawBackground(int r, int g, int b);
         bool isValidTile(int tile);
         void loadTile(int tile, SDL_Rect rect);
 };
