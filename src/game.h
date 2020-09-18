@@ -16,7 +16,7 @@ class Game
     public:
         Game();
         void quit();
-        void triggerDirection(Direction direction);
+        void shiftBoard(Direction direction);
     private:
         void initializeBoard();
         void startGameLoop();

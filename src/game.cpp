@@ -22,20 +22,9 @@ void Game::quit()
     running = false;
 }
 
-void Game::triggerDirection(Direction direction)
+void Game::shiftBoard(Direction direction)
 {
-    
-    switch (direction)
-    {
-        case Direction::up:
-            break;
-        case Direction::down:
-            break;
-        case Direction::left:
-            break;
-        case Direction::right:
-            break;
-    }
+    // renderer.render(board);
 }
 
 void Game::initializeBoard()

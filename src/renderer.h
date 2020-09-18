@@ -17,9 +17,7 @@ class Renderer
         SDL_Window *window;
         SDL_Surface *surface;
         SDL_Renderer *renderer;
-        
-        // void clear();
-        // void drawRect(SDL_Rect rect, SDL_Color color);
+        void drawBackground(int r, int g, int b);
         bool isValidTile(int tile);
         void loadTile(int tile, SDL_Rect rect);
 };

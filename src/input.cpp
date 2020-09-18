@@ -15,19 +15,19 @@ void Input::process(SDL_Event &event)
         {
             case SDLK_UP:
             case SDLK_w:
-                game->triggerDirection(Direction::up);
+                game->shiftBoard(Direction::up);
                 break;
             case SDLK_DOWN:
             case SDLK_s:
-                game->triggerDirection(Direction::down);
+                game->shiftBoard(Direction::down);
                 break;
             case SDLK_LEFT:
             case SDLK_a:
-                game->triggerDirection(Direction::left);
+                game->shiftBoard(Direction::left);
                 break;
             case SDLK_RIGHT:
             case SDLK_d:
-                game->triggerDirection(Direction::right);
+                game->shiftBoard(Direction::right);
                 break;
         }
     }
