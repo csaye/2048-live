@@ -29,16 +29,65 @@ void Game::shiftBoard(Direction direction)
     switch (direction)
     {
         case Direction::up:
+        {
+            for (int x = 0; x < boardWidth; x++)
+            {
+                for (int y = 1; y < boardHeight; y++)
+                {
+                    int tile = board[x][y];
+                    if (tile == 0) continue;
+                    int newY = y - 1;
+                    
+                    while (newY > 0)
+                    {
+                        if (board[x][newY] != 0) break;
+                        newY--;
+                    }
+
+                    board[x][y] = 0;
+                    if (board[x][newY] == 0) board[x][newY] = tile;
+                    else if (board[x][newY] == tile) board[x][newY] = tile * 2;
+                    else board[x][y] = tile;
+                }
+            }
             break;
+        }
         case Direction::down:
+        {
+            for (int x = 0; x < boardWidth; x++)
+            {
+                for (int y = boardHeight - 2; y >= 0; y--)
+                {
+                    
+                }
+            }
             break;
+        }
         case Direction::left:
+        {
+            for (int y = 0; y < boardHeight; y++)
+            {
+                for (int x = 1; x < boardWidth; x++)
+                {
+                    
+                }
+            }
             break;
+        }
         case Direction::right:
+        {
+            for (int y = 0; y < boardHeight; y++)
+            {
+                for (int x = boardWidth - 2; x >= 0; x--)
+                {
+                    
+                }
+            }
             break;
+        }
     }
-    spawnTile(1);
-    // renderer->render(board);
+    // spawnTile(1);
+    renderer->render(board);
 }
 
 void Game::initializeBoard()
@@ -92,10 +141,8 @@ void Game::spawnTile(int count)
                 }
             }
         }
-
         board[x][y] = std::rand() % 2 == 0 ? 2 : 4;
     }
-    renderer->render(board);
 }
 
 void Game::startGameLoop()
@@ -104,6 +151,7 @@ void Game::startGameLoop()
     Input input(this);
     SDL_Event event;
     running = true;
+    renderer->render(board);
 
     while (running)
     {
