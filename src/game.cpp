@@ -43,6 +43,8 @@ void Game::startGameLoop()
     running = true;
 
     board[1][1] = 1;
+    board[3][3] = 1;
+    board[2][2] = 1;
 
     renderer.render(board);
 

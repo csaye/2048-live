@@ -40,11 +40,11 @@ Renderer::~Renderer()
 
 void Renderer::loadImage(std::string name, SDL_Rect rect)
 {
-    // std::string path = "testingPic.bmp";
-    // SDL_Surface *image = SDL_LoadBMP(path.c_str());
-    SDL_Surface *image = SDL_LoadBMP("test.bmp");
-    if (image == NULL) std::cout << "null image";
-    SDL_BlitSurface(image, &rect, surface, NULL);
+    SDL_Rect sizeRect{0, 0, rect.w, rect.h};
+    std::string path = "../img/" + name + ".bmp";
+    SDL_Surface *image = SDL_LoadBMP(path.c_str());
+    // if (image == NULL) std::cout << "Image " << name << " was not found.";
+    SDL_BlitSurface(image, &sizeRect, surface, &rect);
 }
 
 void Renderer::render(std::vector<std::vector<int>> &board)
@@ -66,7 +66,7 @@ void Renderer::render(std::vector<std::vector<int>> &board)
             {
                 case 1:
                     // drawRect(rect, white);
-                    loadImage("testingPic", rect);
+                    loadImage("test", rect);
                     break;
             }
         }
