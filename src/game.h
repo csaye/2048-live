@@ -3,11 +3,20 @@
 
 #include <vector>
 
+enum class Direction
+{
+    up,
+    down,
+    left,
+    right
+};
+
 class Game
 {
     public:
         Game();
         void quit();
+        void triggerDirection(Direction direction);
     private:
         void initializeBoard();
         void startGameLoop();

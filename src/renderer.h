@@ -20,7 +20,8 @@ class Renderer
         
         // void clear();
         // void drawRect(SDL_Rect rect, SDL_Color color);
-        void loadImage(std::string name, SDL_Rect rect);
+        bool isValidTile(int tile);
+        void loadTile(int tile, SDL_Rect rect);
 };
 
 #endif

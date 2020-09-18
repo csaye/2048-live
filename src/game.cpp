@@ -22,6 +22,22 @@ void Game::quit()
     running = false;
 }
 
+void Game::triggerDirection(Direction direction)
+{
+    
+    switch (direction)
+    {
+        case Direction::up:
+            break;
+        case Direction::down:
+            break;
+        case Direction::left:
+            break;
+        case Direction::right:
+            break;
+    }
+}
+
 void Game::initializeBoard()
 {
     for (int x = 0; x < boardWidth; x++)
@@ -41,10 +57,6 @@ void Game::startGameLoop()
 
     SDL_Event event;
     running = true;
-
-    board[1][1] = 2;
-    board[3][3] = 16;
-    board[2][2] = 1024;
 
     renderer.render(board);
 

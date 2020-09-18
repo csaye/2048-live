@@ -38,11 +38,22 @@ Renderer::~Renderer()
 //     SDL_RenderFillRect(renderer, &rect);
 // }
 
-void Renderer::loadImage(std::string name, SDL_Rect rect)
+bool Renderer::isValidTile(int tile)
 {
-    std::string path = "../img/" + name + ".bmp";
+    if (tile < 2) return false;
+    if (tile > 8192) return false;
+    for (int i = tile; i > 2; i /= 2)
+    {
+        if (i % 2 != 0) return false;
+    }
+    return true;
+}
+
+void Renderer::loadTile(int tile, SDL_Rect rect)
+{
+    std::string path = "../img/" + std::to_string(tile) + "tile.bmp";
     SDL_Surface *image = SDL_LoadBMP(path.c_str());
-    if (image == NULL) std::cout << "Image " << name << " was not found.";
+    if (image == NULL) std::cout << "Image at path " << path << " not found.";
     SDL_BlitScaled(image, NULL, surface, &rect);
 }
 
@@ -60,52 +71,11 @@ void Renderer::render(std::vector<std::vector<int>> &board)
         for (int y = 0; y < board[x].size(); y++)
         {
             SDL_Rect rect{x * w, y * h, w, h};
-
-            switch (board[x][y])
-            {
-                case 2:
-                    loadImage("2tile", rect);
-                    break;
-                case 4:
-                    loadImage("4tile", rect);
-                    break;
-                case 8:
-                    loadImage("8tile", rect);
-                    break;
-                case 16:
-                    loadImage("16tile", rect);
-                    break;
-                case 32:
-                    loadImage("32tile", rect);
-                    break;
-                case 64:
-                    loadImage("64tile", rect);
-                    break;
-                case 128:
-                    loadImage("128tile", rect);
-                    break;
-                case 256:
-                    loadImage("256tile", rect);
-                    break;
-                case 512:
-                    loadImage("512tile", rect);
-                    break;
-                case 1024:
-                    loadImage("1024tile", rect);
-                    break;
-                case 2048:
-                    loadImage("2048tile", rect);
-                    break;
-                case 4096:
-                    loadImage("4096tile", rect);
-                    break;
-                case 8192:
-                    loadImage("8192tile", rect);
-                    break;
-            }
+            int tile = board[x][y];
+            if (isValidTile(tile)) loadTile(tile, rect);
         }
     }
 
     SDL_UpdateWindowSurface(window);
-    SDL_RenderPresent(renderer);
+    // SDL_RenderPresent(renderer);
 }
