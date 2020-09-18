@@ -26,6 +26,7 @@ void Game::quit()
 
 void Game::shiftBoard(Direction direction)
 {
+    // bool tileMoved = false;
     switch (direction)
     {
         case Direction::up:
@@ -43,11 +44,12 @@ void Game::shiftBoard(Direction direction)
                         if (board[x][newY] != 0) break;
                         newY--;
                     }
-
+                    
                     board[x][y] = 0;
                     if (board[x][newY] == 0) board[x][newY] = tile;
                     else if (board[x][newY] == tile) board[x][newY] = tile * 2;
-                    else board[x][y] = tile;
+                    else board[x][newY + 1] = tile;
+                    
                 }
             }
             break;
@@ -58,7 +60,20 @@ void Game::shiftBoard(Direction direction)
             {
                 for (int y = boardHeight - 2; y >= 0; y--)
                 {
+                    int tile = board[x][y];
+                    if (tile == 0) continue;
+                    int newY = y + 1;
                     
+                    while (newY < boardHeight - 1)
+                    {
+                        if (board[x][newY] != 0) break;
+                        newY++;
+                    }
+                    
+                    board[x][y] = 0;
+                    if (board[x][newY] == 0) board[x][newY] = tile;
+                    else if (board[x][newY] == tile) board[x][newY] = tile * 2;
+                    else board[x][newY - 1] = tile;
                 }
             }
             break;
@@ -69,7 +84,20 @@ void Game::shiftBoard(Direction direction)
             {
                 for (int x = 1; x < boardWidth; x++)
                 {
+                    int tile = board[x][y];
+                    if (tile == 0) continue;
+                    int newX = x - 1;
                     
+                    while (newX > 0)
+                    {
+                        if (board[newX][y] != 0) break;
+                        newX--;
+                    }
+                    
+                    board[x][y] = 0;
+                    if (board[newX][y] == 0) board[newX][y] = tile;
+                    else if (board[newX][y] == tile) board[newX][y] = tile * 2;
+                    else board[newX + 1][y] = tile;
                 }
             }
             break;
@@ -80,14 +108,31 @@ void Game::shiftBoard(Direction direction)
             {
                 for (int x = boardWidth - 2; x >= 0; x--)
                 {
+                    int tile = board[x][y];
+                    if (tile == 0) continue;
+                    int newX = x + 1;
                     
+                    while (newX < boardWidth - 1)
+                    {
+                        if (board[newX][y] != 0) break;
+                        newX++;
+                    }
+                    
+                    board[x][y] = 0;
+                    if (board[newX][y] == 0) board[newX][y] = tile;
+                    else if (board[newX][y] == tile) board[newX][y] = tile * 2;
+                    else board[newX - 1][y] = tile;
                 }
             }
             break;
         }
     }
-    // spawnTile(1);
+    // if (tileMoved)
+    // {
+    spawnTile(1);
     renderer->render(board);
+    // }
+    if (isGameOver()) quit();
 }
 
 void Game::initializeBoard()
@@ -101,7 +146,7 @@ void Game::initializeBoard()
     spawnTile(2);
 }
 
-bool Game::boardFull()
+bool Game::isBoardFull()
 {
     for (int x = 0; x < board.size(); x++)
     {
@@ -113,12 +158,29 @@ bool Game::boardFull()
     return true;
 }
 
+bool Game::isGameOver()
+{
+    if (!isBoardFull()) return false;
+    for (int x = 0; x < boardWidth; x++)
+    {
+        for (int y = 0; y < boardHeight; y++)
+        {
+            int tile = board[x][y];
+            if (x > 0 && board[x - 1][y] == tile) return false;
+            if (x < boardWidth - 1 && board[x + 1][y] == tile) return false;
+            if (y > 0 && board[x][y - 1] == tile) return false;
+            if (y < boardHeight - 1 && board[x][y + 1] == tile) return false;
+        }
+    }
+    return true;
+}
+
 void Game::spawnTile(int count)
 {
     std::srand(std::time(nullptr));
     for (int i = 0; i < count; i++)
     {
-        if (boardFull()) return;
+        if (isBoardFull()) return;
 
         int x = std::rand() % boardWidth;
         int y = std::rand() % boardHeight;

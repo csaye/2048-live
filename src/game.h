@@ -14,12 +14,14 @@ class Game
         void shiftBoard(Direction direction);
     private:
         void initializeBoard();
-        bool boardFull();
+        bool isBoardFull();
+        bool isGameOver();
         void spawnTile(int count);
         void startGameLoop();
         bool running;
         std::vector<std::vector<int>> board;
         Renderer *renderer;
+        int score;
 
 };
 
