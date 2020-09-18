@@ -40,11 +40,10 @@ Renderer::~Renderer()
 
 void Renderer::loadImage(std::string name, SDL_Rect rect)
 {
-    SDL_Rect sizeRect{0, 0, rect.w, rect.h};
     std::string path = "../img/" + name + ".bmp";
     SDL_Surface *image = SDL_LoadBMP(path.c_str());
-    // if (image == NULL) std::cout << "Image " << name << " was not found.";
-    SDL_BlitSurface(image, &sizeRect, surface, &rect);
+    if (image == NULL) std::cout << "Image " << name << " was not found.";
+    SDL_BlitScaled(image, NULL, surface, &rect);
 }
 
 void Renderer::render(std::vector<std::vector<int>> &board)
@@ -64,9 +63,44 @@ void Renderer::render(std::vector<std::vector<int>> &board)
 
             switch (board[x][y])
             {
-                case 1:
-                    // drawRect(rect, white);
-                    loadImage("test", rect);
+                case 2:
+                    loadImage("2tile", rect);
+                    break;
+                case 4:
+                    loadImage("4tile", rect);
+                    break;
+                case 8:
+                    loadImage("8tile", rect);
+                    break;
+                case 16:
+                    loadImage("16tile", rect);
+                    break;
+                case 32:
+                    loadImage("32tile", rect);
+                    break;
+                case 64:
+                    loadImage("64tile", rect);
+                    break;
+                case 128:
+                    loadImage("128tile", rect);
+                    break;
+                case 256:
+                    loadImage("256tile", rect);
+                    break;
+                case 512:
+                    loadImage("512tile", rect);
+                    break;
+                case 1024:
+                    loadImage("1024tile", rect);
+                    break;
+                case 2048:
+                    loadImage("2048tile", rect);
+                    break;
+                case 4096:
+                    loadImage("4096tile", rect);
+                    break;
+                case 8192:
+                    loadImage("8192tile", rect);
                     break;
             }
         }

@@ -42,9 +42,9 @@ void Game::startGameLoop()
     SDL_Event event;
     running = true;
 
-    board[1][1] = 1;
-    board[3][3] = 1;
-    board[2][2] = 1;
+    board[1][1] = 2;
+    board[3][3] = 16;
+    board[2][2] = 1024;
 
     renderer.render(board);
 
