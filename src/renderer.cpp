@@ -9,7 +9,7 @@ Renderer::Renderer(int screenWidth_, int screenHeight_, int boardWidth_, int boa
     boardWidth = boardWidth_;
     boardHeight = boardHeight_;
 
-    window = SDL_CreateWindow("2048 Live", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("2048 Live: score 0", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     surface = SDL_GetWindowSurface(window);
     SDL_FillRect(surface, NULL, 0xBBADA0);
     SDL_UpdateWindowSurface(window);
@@ -34,16 +34,21 @@ bool Renderer::isValidTile(int tile)
 
 void Renderer::loadTile(int tile, SDL_Rect rect)
 {
-    std::cout << "Loading tile " << tile << ".\n";
+    // std::cout << "Loading tile " << tile << ".\n";
     std::string path = "../img/" + std::to_string(tile) + "tile.bmp";
     SDL_Surface *image = SDL_LoadBMP(path.c_str());
     if (image == NULL) std::cout << "Image at path " << path << " not found.";
     SDL_BlitScaled(image, NULL, surface, &rect);
 }
 
+void Renderer::setWindowTitle(std::string title)
+{
+    SDL_SetWindowTitle(window, title.c_str());
+}
+
 void Renderer::render(std::vector<std::vector<int>> &board)
 {
-    std::cout << "rendering\n";
+    // std::cout << "rendering\n";
     SDL_FillRect(surface, NULL, 0xBBADA0);
 
     int w = screenWidth / boardWidth;

@@ -9,6 +9,7 @@ class Renderer
         Renderer(int screenWidth_, int screenHeight_, int boardWidth_, int boardHeight_);
         ~Renderer();
         void render(std::vector<std::vector<int>> &board);
+        void setWindowTitle(std::string title);
     private:
         int screenWidth;
         int screenHeight;

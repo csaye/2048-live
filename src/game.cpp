@@ -1,4 +1,5 @@
 #include <thread>
+#include <iostream>
 
 #include "game.h"
 #include "renderer.h"
@@ -22,11 +23,13 @@ Game::Game()
 void Game::quit()
 {
     running = false;
+    std::cout << "Game over.\n";
+    std::cout << "Your score was: " << getScore() << "\n";
 }
 
 void Game::shiftBoard(Direction direction)
 {
-    // bool tileMoved = false;
+    bool wasTileMoved = false;
     switch (direction)
     {
         case Direction::up:
@@ -38,6 +41,9 @@ void Game::shiftBoard(Direction direction)
                     int tile = board[x][y];
                     if (tile == 0) continue;
                     int newY = y - 1;
+                    int nextTile = board[x][newY];
+                    if (nextTile != 0 && nextTile != tile) continue;
+                    wasTileMoved = true;
                     
                     while (newY > 0)
                     {
@@ -47,9 +53,12 @@ void Game::shiftBoard(Direction direction)
                     
                     board[x][y] = 0;
                     if (board[x][newY] == 0) board[x][newY] = tile;
-                    else if (board[x][newY] == tile) board[x][newY] = tile * 2;
+                    else if (board[x][newY] == tile)
+                    {
+                        board[x][newY] = tile * 2;
+                        score += (tile * 2);
+                    }
                     else board[x][newY + 1] = tile;
-                    
                 }
             }
             break;
@@ -63,6 +72,9 @@ void Game::shiftBoard(Direction direction)
                     int tile = board[x][y];
                     if (tile == 0) continue;
                     int newY = y + 1;
+                    int nextTile = board[x][newY];
+                    if (nextTile != 0 && nextTile != tile) continue;
+                    wasTileMoved = true;
                     
                     while (newY < boardHeight - 1)
                     {
@@ -72,7 +84,11 @@ void Game::shiftBoard(Direction direction)
                     
                     board[x][y] = 0;
                     if (board[x][newY] == 0) board[x][newY] = tile;
-                    else if (board[x][newY] == tile) board[x][newY] = tile * 2;
+                    else if (board[x][newY] == tile)
+                    {
+                        board[x][newY] = tile * 2;
+                        score += (tile * 2);
+                    }
                     else board[x][newY - 1] = tile;
                 }
             }
@@ -87,6 +103,9 @@ void Game::shiftBoard(Direction direction)
                     int tile = board[x][y];
                     if (tile == 0) continue;
                     int newX = x - 1;
+                    int nextTile = board[newX][y];
+                    if (nextTile != 0 && nextTile != tile) continue;
+                    wasTileMoved = true;
                     
                     while (newX > 0)
                     {
@@ -96,7 +115,11 @@ void Game::shiftBoard(Direction direction)
                     
                     board[x][y] = 0;
                     if (board[newX][y] == 0) board[newX][y] = tile;
-                    else if (board[newX][y] == tile) board[newX][y] = tile * 2;
+                    else if (board[newX][y] == tile)
+                    {
+                        board[newX][y] = tile * 2;
+                        score += (tile * 2);
+                    }
                     else board[newX + 1][y] = tile;
                 }
             }
@@ -111,6 +134,9 @@ void Game::shiftBoard(Direction direction)
                     int tile = board[x][y];
                     if (tile == 0) continue;
                     int newX = x + 1;
+                    int nextTile = board[newX][y];
+                    if (nextTile != 0 && nextTile != tile) continue;
+                    wasTileMoved = true;
                     
                     while (newX < boardWidth - 1)
                     {
@@ -120,18 +146,23 @@ void Game::shiftBoard(Direction direction)
                     
                     board[x][y] = 0;
                     if (board[newX][y] == 0) board[newX][y] = tile;
-                    else if (board[newX][y] == tile) board[newX][y] = tile * 2;
+                    else if (board[newX][y] == tile)
+                    {
+                        board[newX][y] = tile * 2;
+                        score += (tile * 2);
+                    }
                     else board[newX - 1][y] = tile;
                 }
             }
             break;
         }
     }
-    // if (tileMoved)
-    // {
-    spawnTile(1);
-    renderer->render(board);
-    // }
+    if (wasTileMoved)
+    {
+        spawnTile(1);
+        renderer->render(board);
+        renderer->setWindowTitle("2048 Live: score " + std::to_string(score));
+    }
     if (isGameOver()) quit();
 }
 
@@ -209,6 +240,7 @@ void Game::spawnTile(int count)
 
 void Game::startGameLoop()
 {
+    score = 0;
     initializeBoard();
     Input input(this);
     SDL_Event event;

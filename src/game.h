@@ -12,6 +12,7 @@ class Game
         Game();
         void quit();
         void shiftBoard(Direction direction);
+        int getScore() {return score;}
     private:
         void initializeBoard();
         bool isBoardFull();
