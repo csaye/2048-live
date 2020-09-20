@@ -250,12 +250,13 @@ void Game::startGameLoop()
     renderer->render(board);
 
     SDL_Event event;
-    // KeyInput keyInput(this);
-    CamInput camInput(this, cameraNum, fps);
+    CamInput camInput(this, cameraNum);
+    KeyInput keyInput(this, &camInput);
 
     while (running)
     {
-        while (SDL_PollEvent(&event)) if (event.type == SDL_QUIT) quit();
+        camInput.process();
+        while (SDL_PollEvent(&event)) keyInput.process(event);
         std::this_thread::sleep_for(std::chrono::milliseconds(1000 / fps));
     }
 }

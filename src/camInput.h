@@ -6,9 +6,13 @@
 class CamInput
 {
     public:
-        CamInput(Game *game_, int cameraNum, int fps_);
+        CamInput(Game *game_, int cameraNum);
+        void process();
+        void clear();
+        void pause();
     private:
         Game *game;
+        int cameraNum;
         int fps;
         void startProcess(int cameraNum);
         void calculateDirection(float x, float y);

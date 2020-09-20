@@ -1,10 +1,5 @@
 #include "keyInput.h"
 
-KeyInput::KeyInput(Game *game_)
-{
-    game = game_;
-}
-
 void KeyInput::process(SDL_Event &event)
 {
     if (event.type == SDL_QUIT) game->quit();
@@ -28,6 +23,13 @@ void KeyInput::process(SDL_Event &event)
             case SDLK_RIGHT:
             case SDLK_d:
                 game->shiftBoard(Game::Direction::right);
+                break;
+            
+            case SDLK_c:
+                camInput->clear();
+                break;
+            case SDLK_p:
+                camInput->pause();
                 break;
         }
     }

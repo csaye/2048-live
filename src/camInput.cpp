@@ -13,11 +13,15 @@ cv::Rect selection;
 bool selectObject = false;
 int trackObject = 0;
 
-CamInput::CamInput(Game *game_, int cameraNum, int fps_)
+CamInput::CamInput(Game *game_, int cameraNum)
 {
     game = game_;
-    fps = fps_;
     startProcess(cameraNum);
+}
+
+void CamInput::startProcess(int cameraNum)
+{
+
 }
 
 void CamInput::calculateDirection(float x, float y)
@@ -55,10 +59,22 @@ void CamInput::onMouse(int event, int x, int y, int, void*)
     }
 }
 
-void CamInput::startProcess(int cameraNum)
+void CamInput::clear()
+{
+
+}
+
+void CamInput::pause()
+{
+    
+}
+
+void CamInput::process()
 {
     cv::VideoCapture capture;
     cv::Rect trackWindow;
+
+    SDL_Event event;
 
     capture.open(cameraNum);
 
@@ -82,7 +98,7 @@ void CamInput::startProcess(int cameraNum)
 
         imshow("DirectionDetector", image);
 
-        char ch = (char)cv::waitKey(2000 / fps);
+        char ch = (char)cv::waitKey(1000 / fps);
         if (ch == 27) break;
         else if (ch == 'c') trackObject = 0;
         else if (ch == 'p') paused = !paused;
@@ -90,5 +106,6 @@ void CamInput::startProcess(int cameraNum)
         else if (ch == 'a') game->shiftBoard(Game::Direction::left);
         else if (ch == 's') game->shiftBoard(Game::Direction::down);
         else if (ch == 'd') game->shiftBoard(Game::Direction::right);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000 / fps));
     }
 }
