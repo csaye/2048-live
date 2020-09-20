@@ -2,6 +2,7 @@
 #define CAMINPUT_H
 
 #include "game.h"
+#include "opencv2/core/utility.hpp"
 
 class CamInput
 {

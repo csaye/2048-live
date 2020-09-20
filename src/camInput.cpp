@@ -1,15 +1,15 @@
 #include "camInput.h"
-#include "opencv2/core/utility.hpp"
 #include "opencv2/video/tracking.hpp"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/highgui.hpp"
 
 cv::Mat image;
-
 cv::Point origin;
 cv::Rect selection;
 
-const int triggerExtent = 300;
+const int triggerWidth = 600;
+const int triggerHeight = 400;
+bool resetTrigger = false;
 bool selectObject = false;
 int trackObject = 0;
 int vMin = 10, vMax = 256, sMin = 30;
@@ -41,12 +41,21 @@ void CamInput::startProcess(int cameraNum)
 
 void CamInput::calculateDirection(cv::Point point)
 {
-    // triggerBox.contains()
-    std::cout << "(" << x << ", " << y << ")\n";
-    // game->shiftBoard(Game::Direction::up);
-    // game->shiftBoard(Game::Direction::down);
-    // game->shiftBoard(Game::Direction::left);
-    // game->shiftBoard(Game::Direction::right);
+    if (triggerBox.contains(point) && resetTrigger) resetTrigger = false;
+    if (!resetTrigger && !triggerBox.contains(point))
+    {
+        resetTrigger = true;
+
+        float minX = triggerBox.x;
+        float minY = triggerBox.y;
+        float maxX = triggerBox.x + triggerBox.width;
+        float maxY = triggerBox.y + triggerBox.height;
+
+        if (point.x < minX) game->shiftBoard(Game::Direction::left);
+        else if (point.x > maxX) game->shiftBoard(Game::Direction::right);
+        else if (point.y < minY) game->shiftBoard(Game::Direction::up);
+        else if (point.y > maxY) game->shiftBoard(Game::Direction::down);
+    }
 }
 
 void CamInput::onMouse(int event, int x, int y, int, void*)
@@ -140,10 +149,10 @@ void CamInput::process()
             }
             
             triggerBox = cv::getWindowImageRect("DirectionDetector");
-            triggerBox.x = triggerExtent / 2;
-            triggerBox.y = triggerExtent / 2;
-            triggerBox.width -= triggerExtent;
-            triggerBox.height -= triggerExtent;
+            triggerBox.x = triggerWidth / 2;
+            triggerBox.y = triggerHeight / 2;
+            triggerBox.width -= triggerWidth;
+            triggerBox.height -= triggerHeight;
 
             cv::rectangle(image, triggerBox, cv::Scalar(0, 255, 0), 1, cv::LINE_AA);
 
