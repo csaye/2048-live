@@ -14,6 +14,7 @@ const int screenHeight = 480;
 const int boardWidth = 4;
 const int boardHeight = 4;
 const int fps = 100;
+const int cameraNum = 0;
 
 Game::Game()
 {
@@ -243,17 +244,18 @@ void Game::spawnTile(int count)
 void Game::startGameLoop()
 {
     score = 0;
+    running = true;
     initializeBoard();
+    renderer->render(board);
+
+    SDL_Event event;
     KeyInput keyInput(this);
     CamInput camInput(this);
-    SDL_Event event;
-    running = true;
-    renderer->render(board);
 
     while (running)
     {
         while (SDL_PollEvent(&event)) keyInput.process(event);
-        camInput.process();
+        camInput.process(cameraNum);
         std::this_thread::sleep_for(std::chrono::milliseconds(1000 / fps));
     }
 }
