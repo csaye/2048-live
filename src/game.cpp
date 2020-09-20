@@ -32,7 +32,6 @@ void Game::quit()
 
 void Game::shiftBoard(Direction direction)
 {
-    std::cout << "shifting board\n";
     bool wasTileMoved = false;
     switch (direction)
     {

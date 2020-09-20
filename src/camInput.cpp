@@ -9,12 +9,14 @@ cv::Mat image;
 cv::Point origin;
 cv::Rect selection;
 
+const int triggerExtent = 300;
 bool selectObject = false;
 int trackObject = 0;
 int vMin = 10, vMax = 256, sMin = 30;
 
 cv::VideoCapture capture;
 cv::Rect trackWindow;
+cv::Rect triggerBox;
 
 bool paused = false;
 int hSize = 16;
@@ -37,8 +39,10 @@ void CamInput::startProcess(int cameraNum)
     cv::setMouseCallback("DirectionDetector", onMouse, 0);
 }
 
-void CamInput::calculateDirection(float x, float y)
+void CamInput::calculateDirection(cv::Point point)
 {
+    // triggerBox.contains()
+    std::cout << "(" << x << ", " << y << ")\n";
     // game->shiftBoard(Game::Direction::up);
     // game->shiftBoard(Game::Direction::down);
     // game->shiftBoard(Game::Direction::left);
@@ -134,9 +138,18 @@ void CamInput::process()
 
                 trackWindow = cv::Rect(trackWindow.x - r, trackWindow.y - r, trackWindow.x + r, trackWindow.y + r) & cv::Rect(0, 0, cols, rows);
             }
+            
+            triggerBox = cv::getWindowImageRect("DirectionDetector");
+            triggerBox.x = triggerExtent / 2;
+            triggerBox.y = triggerExtent / 2;
+            triggerBox.width -= triggerExtent;
+            triggerBox.height -= triggerExtent;
+
+            cv::rectangle(image, triggerBox, cv::Scalar(0, 255, 0), 1, cv::LINE_AA);
 
             cv::ellipse(image, trackBox, cv::Scalar(0, 0, 255), 3, cv::LINE_AA);
-            calculateDirection(trackBox.center.x, trackBox.center.y);
+
+            calculateDirection(trackBox.center);
         }
     }
     else if (trackObject < 0) paused = false;

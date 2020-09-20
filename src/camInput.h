@@ -15,7 +15,7 @@ class CamInput
         int cameraNum;
         int fps;
         void startProcess(int cameraNum);
-        void calculateDirection(float x, float y);
+        void calculateDirection(cv::Point point);
         static void onMouse(int event, int x, int y, int, void*);
 };
 

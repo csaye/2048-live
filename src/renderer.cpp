@@ -34,7 +34,6 @@ bool Renderer::isValidTile(int tile)
 
 void Renderer::loadTile(int tile, SDL_Rect rect)
 {
-    // std::cout << "Loading tile " << tile << ".\n";
     std::string path = "../img/" + std::to_string(tile) + "tile.bmp";
     SDL_Surface *image = SDL_LoadBMP(path.c_str());
     if (image == NULL) std::cout << "Image at path " << path << " not found.";
@@ -48,7 +47,6 @@ void Renderer::setWindowTitle(std::string title)
 
 void Renderer::render(std::vector<std::vector<int>> &board)
 {
-    // std::cout << "rendering\n";
     SDL_FillRect(surface, NULL, 0xBBADA0);
 
     int w = screenWidth / boardWidth;
