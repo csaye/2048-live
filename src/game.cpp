@@ -13,7 +13,7 @@ const int screenWidth = 480;
 const int screenHeight = 480;
 const int boardWidth = 4;
 const int boardHeight = 4;
-const int fps = 50;
+const int fps = 40;
 const int cameraNum = 0;
 
 Game::Game()

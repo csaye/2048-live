@@ -158,6 +158,8 @@ void CamInput::process()
 
             cv::rectangle(image, triggerBox, cv::Scalar(0, 255, 0), 1, cv::LINE_AA);
 
+            cv::circle(image, trackBox.center, 1, cv::Scalar(0, 0, 255), 3, cv::LINE_AA);
+
             cv::ellipse(image, trackBox, cv::Scalar(0, 0, 255), 3, cv::LINE_AA);
 
             calculateDirection(trackBox.center);
