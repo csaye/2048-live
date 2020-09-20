@@ -219,11 +219,6 @@ void Game::spawnTile(int count)
 
         int x = std::rand() % boardWidth;
         int y = std::rand() % boardHeight;
-        // while (board[x][y] != 0)
-        // {
-        //     int x = std::rand() % boardWidth;
-        //     int y = std::rand() % boardHeight;
-        // }
         if (board[x][y] != 0)
         {
             for (int row = 0; row < boardWidth; row++)
