@@ -4,8 +4,10 @@
 #include "game.h"
 #include "renderer.h"
 #include "renderer.cpp"
-#include "input.h"
-#include "input.cpp"
+#include "keyInput.h"
+#include "keyInput.cpp"
+#include "camInput.h"
+#include "camInput.cpp"
 
 const int screenWidth = 480;
 const int screenHeight = 480;
@@ -242,14 +244,16 @@ void Game::startGameLoop()
 {
     score = 0;
     initializeBoard();
-    Input input(this);
+    KeyInput keyInput(this);
+    CamInput camInput(this);
     SDL_Event event;
     running = true;
     renderer->render(board);
 
     while (running)
     {
-        while (SDL_PollEvent(&event)) input.process(event);
+        while (SDL_PollEvent(&event)) keyInput.process(event);
+        camInput.process();
         std::this_thread::sleep_for(std::chrono::milliseconds(1000 / fps));
     }
 }

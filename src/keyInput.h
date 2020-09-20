@@ -1,14 +1,12 @@
-#ifndef INPUT_H
-#define INPUT_H
-
-#include <SDL2/SDL.h>
+#ifndef KEYINPUT_H
+#define KEYINPUT_H
 
 #include "game.h"
 
-class Input
+class KeyInput
 {
     public:
-        Input(Game *game_);
+        KeyInput(Game *game_);
         void process(SDL_Event &event);
     private:
         Game *game;

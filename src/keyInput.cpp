@@ -1,11 +1,11 @@
-#include "input.h"
+#include "keyInput.h"
 
-Input::Input(Game *game_)
+KeyInput::KeyInput(Game *game_)
 {
     game = game_;
 }
 
-void Input::process(SDL_Event &event)
+void KeyInput::process(SDL_Event &event)
 {
     if (event.type == SDL_QUIT) game->quit();
 
