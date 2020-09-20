@@ -105,6 +105,8 @@ void CamInput::process()
 
     frame.copyTo(image);
 
+    flip(image, image, +1);
+
     if (!paused)
     {
         cv::cvtColor(image, hsv, cv::COLOR_BGR2HSV);
