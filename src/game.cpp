@@ -32,6 +32,7 @@ void Game::quit()
 
 void Game::shiftBoard(Direction direction)
 {
+    std::cout << "shifting board\n";
     bool wasTileMoved = false;
     switch (direction)
     {
@@ -249,13 +250,12 @@ void Game::startGameLoop()
     renderer->render(board);
 
     SDL_Event event;
-    KeyInput keyInput(this);
-    CamInput camInput(this);
+    // KeyInput keyInput(this);
+    CamInput camInput(this, cameraNum, fps);
 
     while (running)
     {
-        while (SDL_PollEvent(&event)) keyInput.process(event);
-        camInput.process(cameraNum);
+        while (SDL_PollEvent(&event)) if (event.type == SDL_QUIT) quit();
         std::this_thread::sleep_for(std::chrono::milliseconds(1000 / fps));
     }
 }

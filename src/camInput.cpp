@@ -13,9 +13,11 @@ cv::Rect selection;
 bool selectObject = false;
 int trackObject = 0;
 
-CamInput::CamInput(Game *game_)
+CamInput::CamInput(Game *game_, int cameraNum, int fps_)
 {
     game = game_;
+    fps = fps_;
+    startProcess(cameraNum);
 }
 
 void CamInput::calculateDirection(float x, float y)
@@ -53,7 +55,7 @@ void CamInput::onMouse(int event, int x, int y, int, void*)
     }
 }
 
-void CamInput::process(int cameraNum)
+void CamInput::startProcess(int cameraNum)
 {
     cv::VideoCapture capture;
     cv::Rect trackWindow;
@@ -79,5 +81,14 @@ void CamInput::process(int cameraNum)
         frame.copyTo(image);
 
         imshow("DirectionDetector", image);
+
+        char ch = (char)cv::waitKey(2000 / fps);
+        if (ch == 27) break;
+        else if (ch == 'c') trackObject = 0;
+        else if (ch == 'p') paused = !paused;
+        else if (ch == 'w') game->shiftBoard(Game::Direction::up);
+        else if (ch == 'a') game->shiftBoard(Game::Direction::left);
+        else if (ch == 's') game->shiftBoard(Game::Direction::down);
+        else if (ch == 'd') game->shiftBoard(Game::Direction::right);
     }
 }
