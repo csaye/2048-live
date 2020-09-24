@@ -1,3 +1,5 @@
+#include <SDL2/SDL.h>
+
 #include "keyInput.h"
 
 void KeyInput::process(SDL_Event &event)
